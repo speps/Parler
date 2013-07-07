@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Parler
 {
@@ -17,7 +15,22 @@ namespace Parler
             }
         }
 
-        public static void GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Action<TValue> onFound, Func<TValue> onAdd)
+        public static readonly ISet<char> UniversalCharSet = new ComplementarySet<char>();
+
+        public static bool IsComplement<T>(this ISet<T> set)
+        {
+            return set is ComplementarySet<T>;
+        }
+
+        public static ISet<T> Union<T>(ISet<T> lhs, ISet<T> rhs)
+        {
+            if (lhs.IsComplement())
+            {
+
+            }
+        }
+
+        public static void GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Action<TValue> onFound, Func<TValue> onAdd)
         {
             TValue value;
             if (dictionary.TryGetValue(key, out value))
@@ -31,7 +44,7 @@ namespace Parler
             }
         }
 
-        public static void Get<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue, bool> onFound, Action onElse)
+        public static void Get<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue, bool> onFound, Action onElse)
         {
             TValue value;
             if (dictionary.TryGetValue(key, out value))
